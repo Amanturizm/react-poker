@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import './cards.css';
+import CardView from "./СardView";
+import Card from './lib/Card';
+import CardDeck from './lib/CardDeck';
 
-function App() {
+const App = () => {
+  const [cardDeck, setCardDeck] = useState<CardDeck>(new CardDeck());
+  const [cards, setCards] = useState<Card[]>([]);
+  const [hand, setHand] = useState<string>('');
+
+  const setCardsState = (): void => {
+    if (cardDeck.deck.length !== 0) {
+      const newCards: Card[] = cardDeck.getCards(3);
+      setCards(newCards);
+    } else {
+      alert('Кончились!');
+    }
+  };
+
+  if (cards.length === 0) {
+    return <button className="App-btn firstBtn" onClick={setCardsState}>Раздать карты</button>;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>{hand}</h3>
+      <div className="playingCards faceImages">
+        {
+          cards.map((card: Card, index: number) => {
+            return <CardView rank={card.rank} suit={card.suit} key={index} />
+          })
+        }
+      </div>
+      <button className="App-btn" onClick={setCardsState}>Раздать карты</button>
     </div>
   );
-}
+};
 
 export default App;

@@ -4,6 +4,7 @@ import './cards.css';
 import CardView from "./СardView";
 import Card from './lib/Card';
 import CardDeck from './lib/CardDeck';
+import PokerHand from "./lib/PokerHand";
 
 const App = () => {
   const [cardDeck, setCardDeck] = useState<CardDeck>(new CardDeck());
@@ -12,7 +13,8 @@ const App = () => {
 
   const setCardsState = (): void => {
     if (cardDeck.deck.length !== 0) {
-      const newCards: Card[] = cardDeck.getCards(3);
+      const newCards: Card[] = cardDeck.getCards(5);
+      setHand(new PokerHand(newCards).getOutcome());
       setCards(newCards);
     } else {
       alert('Кончились!');
